@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(*load_paths)
 require 'rss'
 require 'date'
 require 'line/bot'
+require 'dotenv'
 
 Dotenv.load
 
@@ -18,8 +19,6 @@ def lambda_handler(event:, context:)
         config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
         config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     }
-
-    rss.items.sort!
 
     rss.items.each{|item|
         if item.title =~ /新型コロナ/ && Date.parse(item.date.to_s) > today - 6
